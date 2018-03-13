@@ -30,8 +30,8 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee the employee to be searched for.
+     * @return the manager.
      */
     Employee findManager(final Employee employee) {
         Employee manager = null;
@@ -56,6 +56,13 @@ public class EmployeeDatabase {
         /*
          * Implement this function
          */
+        if (employee.getManager().equals("")) {
+            return 0;
+        } else {
+            Employee above = findManager(employee);
+            return countManagersAbove(above) + 1;
+            // is this how you do it?
+        }
     }
 
     /**
@@ -70,8 +77,22 @@ public class EmployeeDatabase {
         /*
          * Implement this function
          */
+        List<Employee> directUnder = new ArrayList<Employee>();
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getManager().equals(employee.getName())) {
+                directUnder.add(employees.get(i));
+            }
+        }
+        if (directUnder.size() == 0) {
+            return 0;
+        } else {
+            int total = 0;
+            for (int j = 0; j < directUnder.size(); j++) {
+                total += countEmployeesUnder(directUnder.get(j));
+            }
+            return directUnder.size() + total;
+        }
     }
-
     /**
      * Main method for testing.
      * <p>
